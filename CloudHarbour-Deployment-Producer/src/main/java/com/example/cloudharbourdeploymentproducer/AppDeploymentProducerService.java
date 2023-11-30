@@ -7,10 +7,10 @@ import com.google.gson.Gson;
 import io.awspring.cloud.sqs.operations.SendResult;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -36,6 +36,21 @@ public class AppDeploymentProducerService {
             DeploymentRequest deploymentRequest = new DeploymentRequest(appDeployment1.getId(),"CREATE");
             messageProducer(deploymentRequest);
             return ResponseEntity.ok("App Scheduled To Deploy");
+        }
+        return ResponseEntity.badRequest().body("App Already Exists, Please Change the name!");
+    }
+    public ResponseEntity<?> deleteAppDeployment(String appId){
+        if(!appDeploymentRepositories.existsById(appId)){
+            return ResponseEntity.badRequest().body("App Doesn't Exist with Given Id!");
+        }
+        Optional<AppDeployment> appDeploymentOptional = appDeploymentRepositories.findAppDeploymentById(appId);
+        if(appDeploymentOptional.isPresent()){
+            AppDeployment appDeployment = appDeploymentOptional.get();
+            appDeployment.setStatus("Deleting");
+            appDeploymentRepositories.save(appDeployment);
+            DeploymentRequest deploymentRequest = new DeploymentRequest(appId,"DELETE");
+            messageProducer(deploymentRequest);
+            return ResponseEntity.ok("App Scheduled To be Deleted!");
         }
         return ResponseEntity.badRequest().body("App Already Exists, Please Change the name!");
     }
