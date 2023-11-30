@@ -44,6 +44,7 @@ public class DeploymentManager {
         if(appDeploymentRepositories.existsById(deploymentRequest.getId())){
             Optional<AppDeployment> deploymentInfo = appDeploymentRepositories.findAppDeploymentById(deploymentRequest.getId());
             System.out.println("GotOptional ->"+deploymentInfo);
+            System.out.println(" !deploymentInfo.get().getStatus().equals(\"Deployed\")->"+ !deploymentInfo.get().getStatus().equals("Deployed"));
             System.out.println("firstCondition"+(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")));
             System.out.println("SecondCondition"+(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")));
                 if(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")){
