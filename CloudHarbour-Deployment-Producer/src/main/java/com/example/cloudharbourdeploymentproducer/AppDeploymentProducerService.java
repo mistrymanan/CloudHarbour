@@ -22,9 +22,16 @@ public class AppDeploymentProducerService {
     @Autowired
     AppDeploymentRepositories appDeploymentRepositories;
 
+    public ResponseEntity<?> getAllDeployment(){
+        return ResponseEntity.ok(appDeploymentRepositories.findAll());
+    }
+
+    public ResponseEntity<?> getSingleDeployment(String deploymentId){
+        return ResponseEntity.ok(appDeploymentRepositories.findAppDeploymentById(deploymentId));
+    }
     public ResponseEntity<?> createAppDeployment(AppDeployment appDeployment){
-        appDeployment.setStatus("InProgress");
         if(!appDeploymentRepositories.existsAppDeploymentByAppName(appDeployment.getAppName())){
+            appDeployment.setStatus("InProgress");
             AppDeployment appDeployment1 = appDeploymentRepositories.save(appDeployment);
             DeploymentRequest deploymentRequest = new DeploymentRequest(appDeployment1.getId(),"CREATE");
             messageProducer(deploymentRequest);
