@@ -30,6 +30,7 @@ public class DeploymentManager {
         try {
             client = Config.defaultClient();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         Configuration.setDefaultApiClient(client);
