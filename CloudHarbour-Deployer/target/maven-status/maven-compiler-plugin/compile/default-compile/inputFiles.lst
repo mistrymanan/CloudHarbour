@@ -1,0 +1,7 @@
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/DeploymentManager.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/DeploymentService.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/repositories/AppDeploymentRepositories.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/dto/AppDeployment.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/config/DynamoDBConfiguration.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/CloudHarbourDeployerApplication.java
+/Users/mananmistry/Dal/CSCI 5409 Cloud/git/Assignment/Term Project/CloudHarbour-Deployer/src/main/java/com/example/cloudharbourdeployer/dto/DeploymentRequest.java
