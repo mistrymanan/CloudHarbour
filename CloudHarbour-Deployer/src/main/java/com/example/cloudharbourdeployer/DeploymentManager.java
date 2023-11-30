@@ -89,7 +89,11 @@ public class DeploymentManager {
     public void removeDeployment(CoreV1Api coreV1Api, AppDeployment deployment) {
 //        deleteService(coreV1Api, deployment);
 //        deletePod(coreV1Api, deployment);
-        deleteNamespace(coreV1Api, deployment);
+        boolean result = deleteNamespace(coreV1Api, deployment);
+        if(result){
+            deployment.setStatus("Deleted");
+            appDeploymentRepositories.save(deployment);
+        }
     }
     private void createNamespace(CoreV1Api coreV1Api, String namespace) {
         V1Namespace v1Namespace = new V1Namespace();
