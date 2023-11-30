@@ -239,9 +239,13 @@ public class DeploymentManager {
             v1Service = api.readNamespacedService(appName,appName,null,null,null);
             System.out.println("v1Service->");
             System.out.println(v1Service);
-            System.out.println("v1Status->");
+            System.out.println("Entering in While loop..");
+            while(v1Service.getStatus().getLoadBalancer().getIngress()==null){
+
+            }
             System.out.println(v1Service.getStatus());
-            return v1Service.getSpec().getLoadBalancerIP();
+            System.out.println("v1Service.getStatus().getLoadBalancer().getIngress().get(0).getHostname()=>"+v1Service.getStatus().getLoadBalancer().getIngress().get(0).getHostname());
+            return v1Service.getStatus().getLoadBalancer().getIngress().get(0).getHostname();
         } catch (ApiException e) {
             if(e.getMessage().contains("Not Found")){
 //                return null;
