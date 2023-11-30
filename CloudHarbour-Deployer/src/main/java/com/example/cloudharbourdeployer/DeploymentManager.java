@@ -79,11 +79,11 @@ public class DeploymentManager {
         System.out.println("CheckServiceExist->"+checkServiceExist(coreV1Api, deploymentInfo.getAppName()));
         if (!checkServiceExist(coreV1Api, deploymentInfo.getAppName())) {
             addService(coreV1Api, deploymentInfo);
-            String loadBalancerIp = getServiceLoadBalancerURL(coreV1Api,deploymentInfo.getAppName());
-            System.out.println("LoadBalancerIp->"+loadBalancerIp);
-            deploymentInfo.setUrl(loadBalancerIp);
-            deploymentInfo.setStatus("Deployed");
-            appDeploymentRepositories.save(deploymentInfo);
+////            String loadBalancerIp = getServiceLoadBalancerURL(coreV1Api,deploymentInfo.getAppName());
+//            System.out.println("LoadBalancerIp->"+loadBalancerIp);
+//            deploymentInfo.setUrl(loadBalancerIp);
+//            deploymentInfo.setStatus("Deployed");
+//            appDeploymentRepositories.save(deploymentInfo);
         }
     }
     public void removeDeployment(CoreV1Api coreV1Api, AppDeployment deployment) {
@@ -243,6 +243,7 @@ public class DeploymentManager {
             while(v1Service.getStatus().getLoadBalancer().getIngress()==null){
                 Thread.sleep(5000);
                 System.out.println("In Loop");
+                v1Service = api.readNamespacedService(appName,appName,null,null,null);
                 try{
                     System.out.println("ServiceLoadBalancer->"+v1Service.getStatus().getLoadBalancer());
                     System.out.println("v1Service.getStatus().getLoadBalancer().getIngress()->"+v1Service.getStatus().getLoadBalancer().getIngress());
