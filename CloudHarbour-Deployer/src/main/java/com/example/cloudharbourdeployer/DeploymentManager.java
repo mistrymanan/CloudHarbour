@@ -240,7 +240,7 @@ public class DeploymentManager {
             System.out.println("v1Service->");
             System.out.println(v1Service);
             System.out.println("Entering in While loop..");
-            while(v1Service.getStatus().getLoadBalancer()==null && v1Service.getStatus().getLoadBalancer().getIngress()==null){
+            while(v1Service.getStatus().getLoadBalancer().getIngress()==null){
                 Thread.sleep(5000);
                 System.out.println("In Loop");
                 try{
