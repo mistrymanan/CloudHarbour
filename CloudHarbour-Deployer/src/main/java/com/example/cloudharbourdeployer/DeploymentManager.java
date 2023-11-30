@@ -240,7 +240,15 @@ public class DeploymentManager {
             System.out.println("v1Service->");
             System.out.println(v1Service);
             System.out.println("Entering in While loop..");
-            while(v1Service.getStatus().getLoadBalancer().getIngress()==null){
+            while(v1Service.getStatus().getLoadBalancer()==null && v1Service.getStatus().getLoadBalancer().getIngress()==null){
+                Thread.sleep(5000);
+                System.out.println("In Loop");
+                try{
+                    System.out.println("ServiceLoadBalancer->"+v1Service.getStatus().getLoadBalancer());
+                    System.out.println("v1Service.getStatus().getLoadBalancer().getIngress()->"+v1Service.getStatus().getLoadBalancer().getIngress());
+                }catch (NullPointerException nullPointerException){
+                    System.out.println("Null Pointer Occurred!");
+                }
 
             }
             System.out.println(v1Service.getStatus());
@@ -250,6 +258,8 @@ public class DeploymentManager {
             if(e.getMessage().contains("Not Found")){
 //                return null;
             }
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 //        return true;
