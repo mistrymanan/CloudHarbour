@@ -18,4 +18,10 @@ public class DeploymentService {
         DeploymentRequest deploymentRequest = gson.fromJson(message, DeploymentRequest.class);
         deploymentManager.processDeploymentMessage(deploymentRequest);
     }
+    @SqsListener("testing")
+    public void getServiceStatus(String appId) {
+        System.out.println("statusCheck: " + appId);
+//        DeploymentRequest deploymentRequest = gson.fromJson(message, DeploymentRequest.class);
+        deploymentManager.checkServiceStatus(appId);
+    }
 }

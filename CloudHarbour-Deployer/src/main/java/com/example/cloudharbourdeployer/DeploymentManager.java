@@ -37,6 +37,15 @@ public class DeploymentManager {
         this.coreV1Api = new CoreV1Api();
     }
 
+    public void checkServiceStatus(String appId){
+        Optional<AppDeployment> deploymentInfo = appDeploymentRepositories.findAppDeploymentById(appId);
+       if(deploymentInfo.isPresent()){
+           String loadBalancerIp = getServiceLoadBalancerURL(coreV1Api,deploymentInfo.get().getAppName());
+           System.out.println("LoadBalancerIp->"+loadBalancerIp);
+       }
+
+
+    }
     public void processDeploymentMessage(DeploymentRequest deploymentRequest) {
 //        System.out.println("Exist By AppName=>"+appDeploymentRepositories.existsAppDeploymentByAppName(deploymentInfo.getAppName()));
 //        appDeploymentRepositories.save(deploymentInfo);
