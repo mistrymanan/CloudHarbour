@@ -43,11 +43,13 @@ public class DeploymentManager {
         System.out.println("Does App Exist !->"+appDeploymentRepositories.existsById(deploymentRequest.getId()));
         if(appDeploymentRepositories.existsById(deploymentRequest.getId())){
             Optional<AppDeployment> deploymentInfo = appDeploymentRepositories.findAppDeploymentById(deploymentRequest.getId());
-            System.out.println("GotOptional ->"+deploymentInfo);
-            System.out.println(" !deploymentInfo.get().getStatus().equals(\"Deployed\")->"+ !deploymentInfo.get().getStatus().equals("Deployed"));
-            System.out.println("firstCondition"+(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")));
-            System.out.println("SecondCondition"+(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")));
-                if(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")){
+//            System.out.println("GotOptional ->"+deploymentInfo);
+//            System.out.println("deploymentInfo.isPresent() "+deploymentInfo.isPresent() );
+//            System.out.println("deploymentRequest.equals(\"CREATE\") "+deploymentRequest.getRequest().equals("CREATE"));
+//            System.out.println(" !deploymentInfo.get().getStatus().equals(\"Deployed\")->"+ !deploymentInfo.get().getStatus().equals("Deployed"));
+//            System.out.println("firstCondition"+(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.getRequest().equals("CREATE")));
+//            System.out.println("SecondCondition"+(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")));
+                if(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.getRequest().equals("CREATE")){
                     createApp(coreV1Api,deploymentInfo.get());
                 }else if(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")){
                     removeDeployment(coreV1Api,deploymentInfo.get());
