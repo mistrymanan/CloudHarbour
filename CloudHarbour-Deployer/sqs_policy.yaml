@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  DeploymentSQSPolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+#        - !Ref DeploymentQueue
+        - "https://sqs.us-east-1.amazonaws.com/389834615459/deployment-queue.fifo"
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "SQS:SendMessage"
+              - "SQS:ReceiveMessage"
+            Effect: "Allow"
+            Resource: "*"
+            Principal:
+              AWS:
+                - "arn:aws:iam::389834615459:role/LabRole"
+                - "389834615459"

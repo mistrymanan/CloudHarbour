@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable public access to ssh
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: "-1"
+          CidrIp: 0.0.0.0/0
+      VpcId: vpc-0ed467e19d9a92355
+
+  MyEC2Instance:
+    Type: "AWS::EC2::Instance"
+    DependsOn: EC2SecurityGroup
+    Properties:
+      ImageId: ami-09538990a0c4fe9be
+      InstanceType: t2.micro
+      KeyName: manan-mistry-serverless
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: True
+          DeviceIndex: "0"
+          SubnetId: subnet-067ee53f1205b134b
+          GroupSet:
+            - !Ref EC2SecurityGroup
+      Tags:
+        - Key: 'Name'
+          Value: 'CloudHarbourDeployer'
+      IamInstanceProfile: 'LabRole'
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          echo "Hello from UserData!" > /home/ec2-user/userdata_output.txt
+          sudo yum update -y
+          sudo yum install git -y
+          sudo yum install java-17-amazon-corretto -y
+          echo "Hello from UserData!" > /home/ec2-user/userdata_output.txt
+          curl -LO "https://dl.k8s.io/release/v1.23.6/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          sudo su ec2-user -c 'aws eks update-kubeconfig --region us-east-1 --name CloudHarbour'
+#          cp -rf /root/.kube/ /home/ec2-user/
+#          chmod
