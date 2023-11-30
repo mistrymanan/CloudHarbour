@@ -40,8 +40,12 @@ public class DeploymentManager {
     public void processDeploymentMessage(DeploymentRequest deploymentRequest) {
 //        System.out.println("Exist By AppName=>"+appDeploymentRepositories.existsAppDeploymentByAppName(deploymentInfo.getAppName()));
 //        appDeploymentRepositories.save(deploymentInfo);
+        System.out.println("Does App Exist !->"+appDeploymentRepositories.existsById(deploymentRequest.getId()));
         if(appDeploymentRepositories.existsById(deploymentRequest.getId())){
             Optional<AppDeployment> deploymentInfo = appDeploymentRepositories.findAppDeploymentById(deploymentRequest.getId());
+            System.out.println("GotOptional ->"+deploymentInfo);
+            System.out.println("firstCondition"+(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")));
+            System.out.println("SecondCondition"+(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")));
                 if(deploymentInfo.isPresent() && !deploymentInfo.get().getStatus().equals("Deployed") && deploymentRequest.equals("CREATE")){
                     createApp(coreV1Api,deploymentInfo.get());
                 }else if(deploymentInfo.isPresent() && deploymentRequest.getRequest().equals("DELETE")){
@@ -52,14 +56,15 @@ public class DeploymentManager {
     }
 
     private void createApp(CoreV1Api coreV1Api,AppDeployment deploymentInfo){
+        System.out.println("ChecknamespaceExist->"+checkNamespaceExist(coreV1Api, deploymentInfo.getAppName()));
         if (!checkNamespaceExist(coreV1Api, deploymentInfo.getAppName())) {
             createNamespace(coreV1Api, deploymentInfo.getAppName());
         }
-
+        System.out.println("CheckPodExist->"+checkPodExist(coreV1Api, deploymentInfo.getAppName()));
         if (!checkPodExist(coreV1Api, deploymentInfo.getAppName())) {
             addPod(coreV1Api, deploymentInfo);
         }
-
+        System.out.println("CheckServiceExist->"+checkServiceExist(coreV1Api, deploymentInfo.getAppName()));
         if (!checkServiceExist(coreV1Api, deploymentInfo.getAppName())) {
             addService(coreV1Api, deploymentInfo);
             String loadBalancerIp = getServiceLoadBalancerURL(coreV1Api,deploymentInfo.getAppName());
