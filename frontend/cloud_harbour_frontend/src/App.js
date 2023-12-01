@@ -4,12 +4,17 @@ import AppService from "./services/AppService";
 import AppForm from "./components/AppForm";
 import AppList from "./components/AppList";
 import AppDetails from "./components/AppDetails";
+
+import {Router} from 'react-router-dom';
 import axios from "axios";
 
 const App = () => {
+
   // const [IP,setIP] = useState();
+
   const [apps, setApps] = useState([]);
   const [selectedApp, setSelectedApp] = useState(null);
+  // console.log(location.pathname);
   const getIp = async () => {
     const res = await axios.get("https://api.ipify.org/?format=json");
     return res.data.ip
@@ -43,29 +48,30 @@ const App = () => {
   };
 
   return (
-      <Container>
-        <Row>
-          <Col md={12}>
-            <h2>Create App</h2>
-            <AppForm addApp={addApp} />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <h2>App List</h2>
-            <AppList apps={apps} viewDetails={viewDetails} />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            {selectedApp ? (
-                <AppDetails app={selectedApp} deleteApp={deleteApp} />
-            ) : (
-                <p>Select an app to view details</p>
-            )}
-          </Col>
-        </Row>
-      </Container>
+        <Container>
+          <Row>
+            <Col md={12}>
+              <h2>Create App</h2>
+              <AppForm addApp={addApp} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <h2>App List</h2>
+              <AppList apps={apps} viewDetails={viewDetails} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              {selectedApp ? (
+                  <AppDetails app={selectedApp} deleteApp={deleteApp} />
+              ) : (
+                  <p>Select an app to view details</p>
+              )}
+            </Col>
+          </Row>
+        </Container>
+
   );
 };
 
