@@ -426,6 +426,8 @@ Resources:
           curl -LO "https://dl.k8s.io/release/v1.23.6/bin/linux/amd64/kubectl"
           git clone https://github.com/mistrymanan/CloudHarbour.git
           chmod 665 CloudHarbour/CloudHarbour-Deployment-Producer/target/CloudHarbour-Deployment-Producer-0.0.1-SNAPSHOT.jar
+          sudo yum install nginx
+          cp -rf ./CloudHarbour/frontend/cloud_harbour_frontend/build/* /usr/share/nginx/html/
           nohup java -jar CloudHarbour/CloudHarbour-Deployment-Producer/target/CloudHarbour-Deployment-Producer-0.0.1-SNAPSHOT.jar &
 #          cd frontend/cloud_harbour_frontend/
 

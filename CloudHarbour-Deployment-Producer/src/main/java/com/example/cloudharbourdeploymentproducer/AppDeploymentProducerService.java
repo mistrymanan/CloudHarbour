@@ -61,7 +61,7 @@ public class AppDeploymentProducerService {
         SendResult<String> result = sqsTemplate.send(to -> to
                 .payload(jsonString)
                 .header("message-group-id", "1")
-                .header("message-deduplication-id", uuid)
+                .header("message-deduplication-id", deploymentRequest.getId())
         );
         System.out.println("Result From Queue->"+result);
     }
