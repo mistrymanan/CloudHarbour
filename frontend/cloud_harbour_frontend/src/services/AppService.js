@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const ip = window.location.href;
-const API_BASE_URL = `${ip}:8080`;
+const ip = window.location.host;
+const API_BASE_URL = `http://${ip}:8080`;
 const AppService = {
     getAllApps: async () => {
         try {
