@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080';
+const ip = process.env.REACT_APP_API_URL;
+const API_BASE_URL = `http://${ip}:8080`;
 
 const AppService = {
     getAllApps: async () => {

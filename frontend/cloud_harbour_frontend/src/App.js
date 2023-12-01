@@ -4,13 +4,21 @@ import AppService from "./services/AppService";
 import AppForm from "./components/AppForm";
 import AppList from "./components/AppList";
 import AppDetails from "./components/AppDetails";
+import axios from "axios";
+
 const App = () => {
+  // const [IP,setIP] = useState();
   const [apps, setApps] = useState([]);
   const [selectedApp, setSelectedApp] = useState(null);
-
+  const getIp = async () => {
+    const res = await axios.get("https://api.ipify.org/?format=json");
+    return res.data.ip
+  };
   useEffect(() => {
+    // getIp();
     const fetchApps = async () => {
-      const allApps = await AppService.getAllApps();
+      const ip = await getIp();
+      const allApps = await AppService.getAllApps(ip);
       setApps(allApps);
     };
 
@@ -18,12 +26,14 @@ const App = () => {
   }, []);
 
   const addApp = async (newApp) => {
-    const addedApp = await AppService.addApp(newApp);
+    const ip = await getIp();
+    const addedApp = await AppService.addApp(ip,newApp);
     setApps([...apps, addedApp]);
   };
 
   const deleteApp = async (appId) => {
-    await AppService.deleteApp(appId);
+    const ip = await getIp();
+    await AppService.deleteApp(ip,appId);
     setApps(apps.filter((app) => app.id !== appId));
     setSelectedApp(null);
   };
