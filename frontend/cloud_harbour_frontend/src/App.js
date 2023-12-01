@@ -31,14 +31,12 @@ const App = () => {
   }, []);
 
   const addApp = async (newApp) => {
-    const ip = await getIp();
-    const addedApp = await AppService.addApp(ip,newApp);
+    const addedApp = await AppService.addApp(newApp);
     setApps([...apps, addedApp]);
   };
 
   const deleteApp = async (appId) => {
-    const ip = await getIp();
-    await AppService.deleteApp(ip,appId);
+    await AppService.deleteApp(appId);
     setApps(apps.filter((app) => app.id !== appId));
     setSelectedApp(null);
   };
